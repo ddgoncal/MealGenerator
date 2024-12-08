@@ -1,7 +1,8 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { env } from '../config/env';
 
-const stripePromise = loadStripe('your_publishable_key');
+const stripePromise = loadStripe(env.VITE_STRIPE_PUBLIC_KEY);
 
 export const SubscriptionButton: React.FC = () => {
   const handleSubscribe = async () => {
