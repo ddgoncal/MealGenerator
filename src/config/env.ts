@@ -16,4 +16,5 @@ export const env = envSchema.parse({
 export const isConfigured = {
   stripe: () => Boolean(env.VITE_STRIPE_PUBLIC_KEY),
   replicate: () => Boolean(env.VITE_REPLICATE_API_TOKEN),
+  api_url: () => Boolean(env.VITE_API_URL),
 };
