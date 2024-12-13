@@ -63,7 +63,6 @@ export const HomePage: React.FC<HomePageProps> = ({clientSecret,isPaymentModalOp
             currency="usd"
             clientSecret={clientSecret}
           />
-          <PaymentForm clientSecret={clientSecret}/>
       </div>
     </>
   );
