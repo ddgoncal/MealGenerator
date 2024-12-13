@@ -7,9 +7,10 @@ import { paymentActions } from '../api/actions/payment.actions';
 // Define the prop types for your component
 interface SubscriptionButtonProps {
   setClientSecret: Dispatch<SetStateAction<string>>;
+  setIsPaymentModalOpen : Dispatch<SetStateAction<boolean>>;
 }
 
-export const SubscriptionButton: React.FC<SubscriptionButtonProps> = ({setClientSecret}) => {
+export const SubscriptionButton: React.FC<SubscriptionButtonProps> = ({setClientSecret, setIsPaymentModalOpen}) => {
   const [showPlans, setShowPlans] = useState(false);
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
@@ -25,6 +26,7 @@ export const SubscriptionButton: React.FC<SubscriptionButtonProps> = ({setClient
       });
 
       setClientSecret(secret);
+      setIsPaymentModalOpen(true);
 
     } catch (error) {
       console.error('Error:', error);
