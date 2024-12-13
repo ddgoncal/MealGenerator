@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { stripePromise } from '../../services/stripe/config';
+import { env, isConfigured } from '../../config/env';
 import {
   Elements,
   PaymentElement,
@@ -7,8 +7,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 
-// Initialize Stripe with your publishable key
-const stripe = await stripePromise;
+const stripe = isConfigured.stripe() ? loadStripe(env.VITE_STRIPE_PUBLIC_KEY) : null;
 
 // Checkout Form Component
 const CheckoutForm = () => {
