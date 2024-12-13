@@ -7,7 +7,7 @@ const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     id: 'price_monthly_id', // Replace with your Stripe price ID
     name: 'Monthly Plan',
     description: 'Perfect for trying out our premium features',
-    price: 9.99,
+    price: 9,
     interval: 'month',
     features: [
       'Unlimited meal ideas',
@@ -20,7 +20,7 @@ const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     id: 'price_yearly_id', // Replace with your Stripe price ID
     name: 'Yearly Plan',
     description: 'Best value for dedicated home chefs',
-    price: 99.99,
+    price: 99,
     interval: 'year',
     features: [
       'All Monthly Plan features',

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { stripePromise } from '../services/stripe/config';
-import { createCheckoutSession } from '../services/stripe/subscription';
 import { SubscriptionPlans } from './subscription/SubscriptionPlans';
 import type { SubscriptionPlan } from '../services/stripe/types';
+import { paymentActions } from '../api/actions/payment.actions';
 
-export const SubscriptionButton: React.FC = () => {
+// Define the prop types for your component
+interface SubscriptionButtonProps {
+  setClientSecret: Dispatch<SetStateAction<string>>;
+}
+
+export const SubscriptionButton: React.FC<SubscriptionButtonProps> = ({setClientSecret}) => {
   const [showPlans, setShowPlans] = useState(false);
 
   const handleSubscribe = async (plan: SubscriptionPlan) => {
@@ -14,8 +19,13 @@ export const SubscriptionButton: React.FC = () => {
         throw new Error('Stripe failed to load');
       }
 
-      const checkoutUrl = await createCheckoutSession(plan);
-      window.location.href = checkoutUrl;
+      const { clientSecret: secret } = await paymentActions.createPaymentIntent({
+        amount: plan.price, // $10.00
+        currency: 'eur',
+      });
+
+      setClientSecret(secret);
+
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to start subscription process. Please try again.');

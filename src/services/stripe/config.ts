@@ -1,8 +1,8 @@
 import { loadStripe } from '@stripe/stripe-js';
 import { env, isConfigured } from '../../config/env';
 
-export const stripePromise = isConfigured.stripe() 
-  ? loadStripe(env.VITE_STRIPE_PUBLIC_KEY) 
+export const stripePromise = isConfigured.stripe()
+  ? loadStripe(env.VITE_STRIPE_PUBLIC_KEY)
   : null;
 
 export const SUBSCRIPTION_PRICES = {

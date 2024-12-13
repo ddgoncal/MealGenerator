@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Utensils, ChefHat } from 'lucide-react';
 import { Generator } from './components/Generator';
 import { SubscriptionButton } from './components/SubscriptionButton';
+import PaymentForm from './components/stripe/PaymentForm';
 
 function App() {
+  const [clientSecret, setClientSecret] = useState('');
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       <header className="bg-white shadow-sm sticky top-0 z-10">
@@ -17,7 +20,7 @@ function App() {
                 Meal Idea Generator
               </h1>
             </div>
-            <SubscriptionButton />
+            <SubscriptionButton setClientSecret={setClientSecret}/>
           </div>
         </div>
       </header>
@@ -65,6 +68,8 @@ function App() {
             </div>
           ))}
         </div>
+
+        <PaymentForm clientSecret={clientSecret}/>
       </main>
 
       <footer className="bg-white border-t mt-16">
