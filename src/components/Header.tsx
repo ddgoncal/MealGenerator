@@ -1,19 +1,27 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Utensils, User, BookOpen, BrainCircuit } from 'lucide-react';
+import { Utensils, User, BookOpen, BrainCircuit, Menu } from 'lucide-react';
 import { SubscriptionButton } from './SubscriptionButton';
 
-const NavLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => {
+const NavLink: React.FC<{
+  to: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}> = ({ to, children, onClick, className }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
+
+  const baseClassName = `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
+  ${isActive
+    ? 'bg-green-50 text-green-700'
+    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`;
 
   return (
     <Link
       to={to}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
-        ${isActive 
-          ? 'bg-green-50 text-green-700' 
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}
+      onClick={onClick}
+      className={`${baseClassName} ${className || ''}`}
     >
       {children}
     </Link>
@@ -27,6 +35,27 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModalOpen}) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null) // Ref for the menu element
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+    // Close menu when clicked outside
+    useEffect(() => {
+      function handleClickOutside(event: MouseEvent) {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            setIsMobileMenuOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [menuRef]);
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -42,6 +71,7 @@ export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModa
             </Link>
           </div>
 
+          {/* Desktop Navigaton */}
           <nav className="hidden md:flex items-center gap-4">
             <NavLink to="/blog">
               <BookOpen size={20} />
@@ -58,10 +88,54 @@ export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModa
             <SubscriptionButton setClientSecret={setClientSecret} setIsPaymentModalOpen={setIsPaymentModalOpen}/>
           </nav>
 
-          {/* Mobile menu button - you can implement a mobile menu later */}
-          <button className="md:hidden p-2">
-            <User size={24} className="text-gray-600" />
+       {/* Mobile menu button */}
+       <button onClick={toggleMobileMenu} className="md:hidden p-2">
+            <Menu size={24} className="text-gray-600" />
           </button>
+
+          {/* Mobile Menu Overlay */}
+          {isMobileMenuOpen && (
+            <div ref={menuRef} // Attach the ref
+                className={`fixed inset-0 bg-white/90 z-20 flex flex-col items-center justify-center transition-all duration-300 ease-in-out
+                  ${isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}`}
+                  style={{pointerEvents: isMobileMenuOpen ? "auto" : "none"}}
+                  >
+                {/* Close button */}
+                <button
+                  onClick={toggleMobileMenu}
+                  className="absolute top-4 right-4 text-gray-700 p-2"
+                >
+                  Close
+                </button>
+              <nav className="flex flex-col items-center gap-4">
+                <NavLink
+                  to="/blog"
+                  onClick={toggleMobileMenu}
+                  className="p-2 flex items-center gap-2 text-lg"
+                  >
+                  <BookOpen size={20} />
+                  Blog
+                </NavLink>
+                <NavLink
+                  to="/quiz"
+                  onClick={toggleMobileMenu}
+                  className="p-2 flex items-center gap-2 text-lg"
+                  >
+                  <BrainCircuit size={20} />
+                  Food Quiz
+                </NavLink>
+                <NavLink
+                    to="/login"
+                    onClick={toggleMobileMenu}
+                    className="p-2 flex items-center gap-2 text-lg"
+                  >
+                  <User size={20} />
+                  Login
+                </NavLink>
+                  <div className='p-2'><SubscriptionButton setClientSecret={setClientSecret} setIsPaymentModalOpen={setIsPaymentModalOpen}/></div>
+              </nav>
+            </div>
+          )}
         </div>
       </div>
     </header>

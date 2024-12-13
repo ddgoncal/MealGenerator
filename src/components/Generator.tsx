@@ -3,7 +3,7 @@ import { Shuffle, Loader2 } from 'lucide-react';
 import { meals } from '../data/meals';
 import { MealCard } from './MealCard';
 import type { Meal } from '../types/meal';
-import { generateMealIdea } from '../services/llm';
+import { generateMealIdea } from '../services/llm/generator';
 
 export const Generator: React.FC = () => {
   const [currentMeal, setCurrentMeal] = useState<Meal | null>(null);
