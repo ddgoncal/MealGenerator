@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import { env, isConfigured } from '../../config/env';
 import {
   Elements,
