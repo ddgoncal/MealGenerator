@@ -4,6 +4,10 @@ import { HomePage } from './pages/HomePage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { QuizPage } from './pages/QuizPage';
+import { BlogPage } from './pages/BlogPage';
+import { BlogPostPage } from './pages/BlogPostPage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 function App() {
   const [clientSecret, setClientSecret] = useState('');
@@ -25,6 +29,10 @@ function App() {
               }
               />
               <Route path="/quiz" element={<QuizPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogPostPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </main>
 
