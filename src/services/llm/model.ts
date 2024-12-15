@@ -4,7 +4,7 @@ import type { GenerationConfig, GenerationProgress } from './types';
 
 class LLMService {
   private static instance: LLMService;
-  private chat: webllm.ChatWorker | null = null;
+  private chat: webllm.MLCEngine | null = null;
   private isInitialized = false;
 
   private constructor() {}
@@ -20,8 +20,10 @@ class LLMService {
     if (this.isInitialized) return;
 
     try {
-      this.chat = new webllm.ChatWorker();
-      await this.chat.reload(MODEL_CONFIG.modelUrl, progressCallback);
+      this.chat = await webllm.CreateMLCEngine(
+        MODEL_CONFIG.modelUrl,
+        { initProgressCallback: progressCallback }, // engineConfig
+      );
       this.isInitialized = true;
     } catch (error) {
       console.error('Failed to initialize LLM:', error);
@@ -35,7 +37,7 @@ class LLMService {
     }
 
     try {
-      const response = await this.chat.generate(prompt, MODEL_CONFIG.generation);
+      const response = await this.chat.chat.completions.create(prompt, MODEL_CONFIG.generation);
       return response;
     } catch (error) {
       console.error('Failed to generate response:', error);

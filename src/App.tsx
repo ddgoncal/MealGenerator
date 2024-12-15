@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { QuizPage } from './pages/QuizPage';
 
 function App() {
   const [clientSecret, setClientSecret] = useState('');
@@ -23,6 +24,7 @@ function App() {
                 />
               }
               />
+              <Route path="/quiz" element={<QuizPage />} />
           </Routes>
         </main>
 
