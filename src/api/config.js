@@ -4,6 +4,9 @@ import { env } from "../config/env";
 const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const ENDPOINTS = {
+  GENERATOR:{
+    MEAL_GENERATE: 'generator/generate-text',
+  },
   PAYMENTS: {
     CREATE_INTENT: '/payments/create-payment-intent',
     GET_STATUS: (paymentId) => `/payments/status/${paymentId}`,
