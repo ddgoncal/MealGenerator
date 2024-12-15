@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { quizQuestions } from '../../data/quizQuestions';
+import { quizQuestions } from '../../data/QuizQuestions';
 import { QuizQuestion } from './QuizQuestion';
 import { UserPreferences } from '../../types/quiz';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
