@@ -7,6 +7,7 @@ import { QuizPage } from './pages/QuizPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { LoginPage } from './pages/LoginPage';
+import PaymentCompletion from './components/stripe/PaymentCompletion';
 import { RegisterPage } from './pages/RegisterPage';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
               <Route path="/blog/:id" element={<BlogPostPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/payment-completion" element={<PaymentCompletion />} />
           </Routes>
         </main>
 
