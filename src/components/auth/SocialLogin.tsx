@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { GoogleLogin } from '@react-oauth/google';
+import { env, isConfigured } from '../../config/env';
 
 export const SocialLogin: React.FC = () => {
-  const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const { loginWithGoogleSucess, loginWithGoogleFailure, loginWithFacebook } = useAuth();
+  console.log(env.VITE_REACT_APP_GOOGLE_CLIENT_ID)
+  console.log(env.VITE_STRIPE_PUBLIC_KEY)
 
   return (
     <div className="space-y-4">
-      <button
-        onClick={loginWithGoogle}
-        className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 
-          rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors"
-      >
-        <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
-        Continue with Google
-      </button>
+      {isConfigured.google_oauth() && (
+        <GoogleLogin
+            clientId={env.VITE_REACT_APP_GOOGLE_CLIENT_ID}
+            redirect_uri={env.VITE_REACT_APP_GOOGLE_REDIRECT_URL}
+            onSuccess={loginWithGoogleSucess}
+            onError={loginWithGoogleFailure}
+        />
+      )}
 
       <button
         onClick={loginWithFacebook}

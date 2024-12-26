@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
+import { jwtDecode } from 'jwt-decode'
+import { sessionManager } from '../services/auth/sessionManager';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -48,18 +50,21 @@ export const useAuth = () => {
     }
   }, [navigate]);
 
-  const loginWithGoogle = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      // TODO: Implement Google login
-      console.log('Google login');
-    } catch (err) {
-      setError('Google login failed');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const loginWithGoogleSucess = (response) => {
+    const decoded = jwtDecode(response.credential);
+    const user: User = {
+      id: decoded.sub as string,
+      email: decoded.email as string,
+      name: decoded.name as string,
+      provider: 'google'
+    };
+    sessionManager.createSession(user, decoded.jti);
+    setUser(user);
+    console.log("Success:", decoded)
+  }
+  const loginWithGoogleFailure = (error) => {
+    console.error('Google sign-in error:', error);
+  }
 
   const loginWithFacebook = useCallback(async () => {
     try {
@@ -85,7 +90,8 @@ export const useAuth = () => {
     isLoading,
     login,
     register,
-    loginWithGoogle,
+    loginWithGoogleSucess,
+    loginWithGoogleFailure,
     loginWithFacebook,
     logout,
   };

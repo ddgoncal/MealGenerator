@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { User } from '../types/auth';
+import { sessionManager } from '../services/auth/sessionManager';
 
 interface AuthContextType {
   user: User | null;
@@ -15,26 +16,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user data on mount
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    async function initializeAuth() {
+      try {
+        const user = await sessionManager.initialize();
+        setUser(user);
+      } catch (error) {
+        console.error('Auth initialization failed:', error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-    setIsLoading(false);
+
+    initializeAuth();
   }, []);
 
   const value = {
     user,
     isAuthenticated: !!user,
     isLoading,
-    setUser: (newUser: User | null) => {
-      setUser(newUser);
-      if (newUser) {
-        localStorage.setItem('user', JSON.stringify(newUser));
-      } else {
-        localStorage.removeItem('user');
-      }
-    },
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

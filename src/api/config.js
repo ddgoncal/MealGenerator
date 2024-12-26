@@ -11,6 +11,12 @@ export const ENDPOINTS = {
     CREATE_INTENT: '/payments/create-payment-intent',
     GET_STATUS: (paymentId) => `/payments/status/${paymentId}`,
   },
+  AUTH: {
+    LOGIN: '/auth/login',
+    GOOGLE_LOGIN: '/auth/google-login',
+    REGISTER: '/auth/register',
+    VERIFY_TOKEN: '/auth/verify-token',
+  },
   TEST: {
     CREATE_TEST_PAYMENT: '/test/create-test-payment',
     CHECK_CONNECTION: '/test/stripe-connection',
