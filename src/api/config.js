@@ -9,6 +9,7 @@ export const ENDPOINTS = {
   },
   PAYMENTS: {
     CREATE_INTENT: '/payments/create-payment-intent',
+    CREATE_CHECKOUT_SESSION: '/payments/create-checkout-session',
     GET_STATUS: (paymentId) => `/payments/status/${paymentId}`,
   },
   AUTH: {

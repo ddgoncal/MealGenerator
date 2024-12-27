@@ -81,8 +81,9 @@ export const useAuth = () => {
 
   const logout = useCallback(() => {
     setUser(null);
-    navigate('/login');
-  }, [navigate]);
+    sessionManager.destroySession();
+    window.location.href = '/';
+  }, []);
 
   return {
     user,

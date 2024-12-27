@@ -4,7 +4,7 @@ const envSchema = z.object({
   VITE_STRIPE_PUBLIC_KEY: z.string().optional().default(''),
   VITE_API_URL: z.string().optional().default('http://localhost:3000/api'),
   VITE_REPLICATE_API_TOKEN: z.string().optional().default(''),
-  VITE_REACT_APP_GOOGLE_REDIRECT_URL: z.string().optional().default('http://localhost:3000/auth/google/callback'),
+  VITE_REACT_APP_GOOGLE_REDIRECT_URL: z.string().optional().default('http://localhost:5173/auth/google/callback'),
   VITE_REACT_APP_GOOGLE_CLIENT_ID: z.string().optional().default(''),
 });
 

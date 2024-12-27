@@ -34,13 +34,14 @@ export const SubscriptionButton: React.FC<SubscriptionButtonProps> = ({
         throw new Error('Stripe failed to load');
       }
 
-      const { clientSecret: secret } = await paymentActions.createPaymentIntent({
+      const { clientSecret: secret, url: url  } = await paymentActions.generateCheckoutSession({
         amount: plan.price * 100, // Convert to cents
         currency: 'eur',
       });
 
       setClientSecret(secret);
-      setIsPaymentModalOpen(true);
+      window.location.href = url;
+      //setIsPaymentModalOpen(true);
       setShowPlans(false);
     } catch (error) {
       console.error('Error:', error);

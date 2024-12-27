@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 're
 import { Link, useLocation } from 'react-router-dom';
 import { Utensils, User, BookOpen, BrainCircuit, Menu } from 'lucide-react';
 import { SubscriptionButton } from './SubscriptionButton';
+import { useAuthContext } from '../contexts/AuthContext';
+import { UserMenu } from './menu/UserMenu';
 
 const NavLink: React.FC<{
   to: string;
@@ -36,6 +38,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModalOpen}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAuthenticated } = useAuthContext();
   const menuRef = useRef<HTMLDivElement>(null) // Ref for the menu element
 
   const toggleMobileMenu = () => {
@@ -71,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModa
             </Link>
           </div>
 
-          {/* Desktop Navigaton */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-4">
             <NavLink to="/blog">
               <BookOpen size={20} />
@@ -81,10 +84,14 @@ export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModa
               <BrainCircuit size={20} />
               Food Quiz
             </NavLink>
-            <NavLink to="/login">
-              <User size={20} />
-              Login
-            </NavLink>
+            {isAuthenticated ? (
+              <UserMenu/>
+            ) : (
+              <NavLink to="/login">
+                <User size={20} />
+                Login
+              </NavLink>
+            )}
             <SubscriptionButton setClientSecret={setClientSecret} setIsPaymentModalOpen={setIsPaymentModalOpen}/>
           </nav>
 
@@ -124,14 +131,19 @@ export const Header: React.FC<HeaderProps> = ({setClientSecret, setIsPaymentModa
                   <BrainCircuit size={20} />
                   Food Quiz
                 </NavLink>
-                <NavLink
+
+                {isAuthenticated ? (
+                  <UserMenu mobile onClose={() => setIsMobileMenuOpen(false)} />
+                ) : (
+                  <NavLink
                     to="/login"
                     onClick={toggleMobileMenu}
                     className="p-2 flex items-center gap-2 text-lg"
                   >
-                  <User size={20} />
-                  Login
-                </NavLink>
+                    <User size={20} />
+                    Login
+                  </NavLink>
+                )}
                   <div className='p-2'><SubscriptionButton setClientSecret={setClientSecret} setIsPaymentModalOpen={setIsPaymentModalOpen}/></div>
               </nav>
             </div>

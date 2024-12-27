@@ -21,6 +21,25 @@ export const paymentActions = {
     }
   },
 
+    /**
+   * Create a payment intent
+   * @param {Object} paymentData
+   * @param {number} paymentData.amount - Amount in cents
+   * @param {string} paymentData.currency - Currency code (e.g., 'usd')
+   */
+  generateCheckoutSession: async (paymentData) => {
+    try {
+      const response = await httpClient.post(
+        ENDPOINTS.PAYMENTS.CREATE_CHECKOUT_SESSION,
+        paymentData
+      );
+      return response;
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      throw error
+    }
+  },
+
   /**
    * Get payment status
    * @param {string} paymentId - The Stripe payment intent ID
