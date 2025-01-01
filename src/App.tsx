@@ -13,6 +13,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { StoredRecipesPage } from './pages/StoredRecipesPage';
 import { FoodTrackingPage } from './pages/FoodTrackingPage';
+import { InMyFridgePage } from './pages/InMyFridgePage';
 import PaymentCompletion from './components/stripe/PaymentCompletion';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { env } from './config/env';
@@ -37,6 +38,11 @@ function App() {
               <Route path="/quiz" element={
                 <ProtectedRoute>
                   <QuizPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/fridge" element={
+                <ProtectedRoute>
+                  <InMyFridgePage />
                 </ProtectedRoute>
               } />
               <Route path="/stored-recipes" element={

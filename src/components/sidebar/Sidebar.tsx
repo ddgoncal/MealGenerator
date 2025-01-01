@@ -8,13 +8,15 @@ import {
   User,
   BookmarkIcon,
   LineChart,
-  Home
+  Home,
+  List
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'Stored Recipes', href: '/stored-recipes', icon: BookmarkIcon },
   { name: 'Food Tracking', href: '/food-tracking', icon: LineChart },
+  { name: 'In My Fridge', href: '/fridge', icon: List },
   { name: 'Generate Meal', href: '/generate', icon: ChefHat },
   { name: 'Food Quiz', href: '/quiz', icon: BrainCircuit },
   { name: 'Blog', href: '/blog', icon: BookOpen },
@@ -27,7 +29,6 @@ const userLinks = [
 
 export const Sidebar: React.FC = () => {
   const location = useLocation();
-
   const isActive = (path: string) => location.pathname === path;
 
   return (
