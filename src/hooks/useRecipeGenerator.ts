@@ -11,18 +11,18 @@ export function useRecipeGeneration() {
     setError(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/generate-recipe`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/recipes/generate-from-ingredients`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients }),
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to generate recipe');
       }
 
       const data = await response.json();
-      setRecipe(data);
+      setRecipe(data.recipe);
     } catch (err) {
       setError('Failed to generate recipe. Please try again.');
       console.error('Recipe generation error:', err);

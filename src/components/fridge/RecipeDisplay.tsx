@@ -64,7 +64,7 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({
           <h3 className="font-medium mb-2">Ingredients</h3>
           <ul className="list-disc list-inside text-gray-600 space-y-1">
             {recipe.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
+              <li key={index}>{ingredient.name} Quantity: {ingredient.quantity}</li>
             ))}
           </ul>
         </div>

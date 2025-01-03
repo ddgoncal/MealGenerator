@@ -1,7 +1,7 @@
 import { env } from "../config/env";
 
 // API configuration
-const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3000';
 
 export const ENDPOINTS = {
   GENERATOR:{
